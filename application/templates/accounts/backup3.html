@@ -1,0 +1,272 @@
+
+<script type='text/javascript'>
+    $(document).ready(function(){
+      $('a').click(function(){
+                  $(this).each(function() {
+                      var $this = $("#table3");
+                      var newrows = [];
+                      $this.find('tr').each(function(){
+                          var i = 0;
+                          $(this).find('td').each(function(){
+                              i++;
+                              if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                              newrows[i].append($(this));
+                          });
+                      });
+                      $this.find('tr').remove();
+                      $.each(newrows, function(){
+                          $this.append(this);
+                      });
+                  });
+              
+                  return false;
+              });
+            });  
+              
+    </script>
+    
+
+
+
+    <script type='text/javascript'>
+        $(document).ready(function(){
+          $('a').click(function(){
+                      $(this).each(function() {
+                          var $this = $("#table3");
+                          var newrows = [];
+                            $this.find('tr').each(function(){
+                                var i = 0;
+                                $(this).find('td').each(function(){
+                                    i++;
+                                    if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                                    newrows[i].append($(this));
+                                });
+                            });
+                          $this.find('tr').remove();
+                          $.each(newrows, function(){
+                              $this.append(this);
+                          });
+                      });
+                  
+                      return false;
+                  });
+                });  
+                  
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<script type="text/javascript">
+$(function()
+{
+    function tally (selector) 
+    {
+      $(selector).each(function () 
+      {
+          var total = 0,
+          column = $(this).siblings(selector).andSelf().index(this);
+          $(this).parents().prevUntil(':has(' + selector + ')').each(function () 
+          {
+            total += parseFloat($('td.sum:eq(' + column + ')', this).html()) || 0;
+          })
+          $(this).html(total);
+     });
+    }
+  tally('td.subtotal');
+  tally('td.total');
+});
+</script>
+</head>
+<body>
+<table border="1" width="500" id="data">
+  <tr align="center" bgcolor="#CCCCCC">
+    <th>Name</th>
+    <th>Age</th>
+    <th>Weight</th>
+    <th>Number</th>
+  </tr>
+  <tr align="center">
+    <td>Joe</td>
+    <td class="sum">30</td>
+    <td class="sum">100</td>
+    <td class="sum">1</td>
+  </tr>
+  <tr align="center">
+    <td>Jack</td>
+    <td class="sum">29</td>
+    <td class="sum">100</td>
+    <td class="sum">1</td>
+  </tr>
+  <tr>
+    <td colspan="4"><hr></td>
+  </tr>
+  <tr align="center" bgcolor="#00CCFF">
+    <th colspan="1" align="right">&nbsp;</th>
+    <td class="total"></td>
+    <td class="total"></td>
+    <td class="total"></td>
+  </tr>
+
+</table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JavaScript | CodeChief</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+<div class="row">
+<div class="col-md-6">
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>1</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+  <td>1</td>
+  <td id="loop">50</td>
+</tr>
+
+<tr>
+  <td>1</td>
+  <td id="loop">60</td>
+</tr>
+
+<tr>
+  <td>1</td>
+  <td id="loop">70</td>
+</tr>
+
+</tbody>
+
+<tbody>
+<tr>
+   <td class="text-right">Total</td>
+   <td id="total"></td>
+</tr>
+
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+    $(function() {
+
+       var TotalValue = 0;
+
+       $("tr #loop").each(function(index,value){
+         currentRow = parseFloat($(this).text());
+         TotalValue += currentRow
+       });
+
+       document.getElementById('total').innerHTML = TotalValue;
+
+});
+</script>
+
+
+</body>
+</html> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table id="workweek" class="wwtable">
+    <tr><th>sunday</th><th>monday</th><th>tuesday</th><th>wednesday</th><th>thursday</th><th>friday</th><th>saturday</th></tr>
+    <tr><td>8 </td><td>1</td><td> </td><td> </td><td> </td><td> </td><td>8</td></tr>
+    <tr><td>8 </td><td>2</td><td>3</td><td> </td><td>5</td><td>8</td><td> </td></tr>
+    <tr><td>4 </td><td>3</td><td> </td><td>4</td><td> </td><td> </td><td>6</td></tr>
+    <tr><td>8 </td><td>9</td><td> </td><td>4</td><td> </td><td>5</td><td> </td></tr>
+    <tr><td>9 </td><td>5</td><td>3</td><td> </td><td>5</td><td> </td><td> </td></tr>
+    <tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+    </table>
+
+
+    for (var i=1; i<8; i++)
+{
+    var sum = 0;
+    // iteration through all td's in the column
+    $('#workweek>tbody>tr>td:nth-child(' + i + ')').each( function(){
+        sum += parseInt($(this).text()) || 0;
+    });
+    // set total in last cell of the column
+    $('#workweek>tbody>tr>td:nth-child(' + i + ')').last().html(sum);
+    $('#workweek>tbody>tr>td:nth-child(' + i + ')').last().toggleClass('total');
+}
+
+.wwtable td {
+    text-align: center;
+}
+
+.total {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+}
+

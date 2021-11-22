@@ -1,0 +1,418 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    
+    <title>All entries</title>
+    
+
+
+<style>
+    body
+    {
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:16px;
+    }
+    .head
+    {
+    background-color:#333;
+    color:#FFFFFF
+    }
+    .edit_tr:hover
+    {
+    background:url(/static/img/edit.png) right no-repeat #80C8E5;
+    cursor:pointer;
+    }
+    .editbox
+    {
+    display:none
+    }
+    .editbox
+    {
+    font-size:16px;
+    width:270px;
+    background-color:#ffffcc;
+    border:solid 1px #000;
+    padding:4px;
+    }
+    td
+    {
+    padding:10px;
+    }
+    th
+    {
+    font-weight:bold;
+    text-align:left;
+    padding:4px;
+    }
+    </style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $(".edit_tr").click(function() {
+    var ID=$(this).attr('id');
+    $("#first_"+ID).hide();
+    $("#first_input_"+ID).show();
+    $("#second_input_"+ID).show();
+    $("#third_input_"+ID).show();
+    $("#fourth_input_"+ID).show();
+    $("#fifth_input_"+ID).show();
+    $("#sixth_input_"+ID).show();
+    $("#seventh_input_"+ID).show();
+    $("#eighth_input_"+ID).show();
+    $("#ninth_input_"+ID).show();
+    $("#tenth_input_"+ID).show();
+    $("#eleven_input_"+ID).show();
+    $("#twelve_input_"+ID).show();
+    $("#thirteen_input_"+ID).show();
+    $("#fourteen_input_"+ID).show();
+  }).change(function(){
+      var ID=$(this).attr('id');
+      var first=$("#first_input_"+ID).val();
+      var second=$("#second_input_"+ID).val();
+      var third=$("#third_input_"+ID).val();
+      var fourth=$("#fourth_input_"+ID).val();
+      var fifth=$("#fifth_input_"+ID).val();
+      var sixth=$("#sixth_input_"+ID).val();
+      var seventh=$("#seventh_input_"+ID).val();
+      var eighth=$("#eighth_input_"+ID).val();
+      var ninth=$("#ninth_input_"+ID).val();
+      var tenth=$("#tenth_input_"+ID).val();
+      var eleven=$("#eleven_input_"+ID).val();
+      var twelve=$("#twelve_input_"+ID).val();
+      var thirteen=$("#thirteen_input_"+ID).val();
+      var fourteen=$("#fourteen_input_"+ID).val();
+      var dataString = 'id='+ ID +'&reciept_total='+first +'&tithe='+second +'&camp_off='+third +'&sabbath_sch='+fourth +'&birthday='+fifth +'&divine='+sixth +'&third_sabb='+seventh +'&general_conf='+eighth +'&operation_unity='+ninth +'&prime_radio='+tenth +'&lunch='+eleven +'&evangelism='+twelve +'&building='+thirteen +'&other_funds='+fourteen;
+      $("#first_"+ID).html('<input type="submit" name="btn" value="submit">');
+      if(first.length>0){
+        $.ajax({
+          type: "POST",
+          url: "/ajax",
+          data: dataString,
+          cache: false,
+          success: function(html)
+          {
+            $("#first_"+ID).html(first);
+          }
+        });
+      }else{
+        alert('Enter something.');
+      }
+  });
+    
+  $(".editbox").mouseup(function() {
+   return false
+  });
+  $(document).mouseup(function() {
+      $(".editbox").hide();
+      $(".text").show();
+  });
+});
+</script>
+
+
+<body>
+    
+<form method="POST" action="">
+    
+    <table width="100%" border="0">
+        <tr class="head">
+            {% for head in headers%}
+                <th>{{ head }}</th>
+            {% endfor %}    
+        </tr>
+        {% for row in entries %}
+         <tr id="{{row.id}}" bgcolor="#f2f2f2" class="edit_tr">
+           <td class="edit_td">
+           <span id="first_{{row.id}}" class="text">{{row.reciept_total }}</span>
+           <input type="number" step="any" name="total" value="{{row.reciept_total }}" class="editbox" id="first_input_{{row.id}}" />
+           </td>
+           <td class="edit_td">
+            <span id="second_{{row.id}}" class="text">{{row.tithe }}</span>
+            <input type="number" step="any" name="tithe" value="{{row.tithe }}" class="editbox" id="second_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="third_{{row.id}}" class="text">{{row.camp_off }}</span>
+            <input type="number" step="any" name="camp_off" value="{{row.camp_off }}" class="editbox" id="third_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="fourth_{{row.id}}" class="text">{{row.sabbath_sch }}</span>
+            <input type="number" step="any" name="sabbath_sch" value="{{row.sabbath_sch }}" class="editbox" id="fourth_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="fifth_{{row.id}}" class="text">{{row.birthday }}</span>
+            <input type="number" step="any" name="birthday" value="{{row.birthday }}" class="editbox" id="fifth_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="sixth_{{row.id}}" class="text">{{row.divine }}</span>
+            <input type="number" step="any" name="divine" value="{{row.divine }}" class="editbox" id="sixth_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="seventh_{{row.id}}" class="text">{{row.third_sabb }}</span>
+            <input type="number" step="any" name="third_sabb" value="{{row.third_sabb }}" class="editbox" id="seventh_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="eighth_{{row.id}}" class="text">{{row.general_conf }}</span>
+            <input type="number" step="any" name="general_conf" value="{{row.general_conf }}" class="editbox" id="eighth_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="ninth_{{row.id}}" class="text">{{row.operation_unity }}</span>
+            <input type="number" step="any" name="operation_unity" value="{{row.operation_unity }}" class="editbox" id="ninth_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="tenth_{{row.id}}" class="text">{{row.prime_radio }}</span>
+            <input type="number" step="any" name="prime_radio" value="{{row.prime_radio }}" class="editbox" id="tenth_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="eleven_{{row.id}}" class="text">{{row.lunch }}</span>
+            <input type="number" step="any" name="lunch" value="{{row.lunch }}" class="editbox" id="eleven_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="twelve_{{row.id}}" class="text">{{row.evangelism }}</span>
+            <input type="number" step="any" name="evangelism" value="{{row.evangelism }}" class="editbox" id="twelve_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="thirteen_{{row.id}}" class="text">{{row.building }}</span>
+            <input type="number" step="any" name="building" value="{{row.building }}" class="editbox" id="thirteen_input_{{row.id}}" />
+            </td>
+            <td class="edit_td">
+            <span id="fourteen_{{row.id}}" class="text">{{row.other_funds }}</span>
+            <input type="number" step="any" name="other_funds" value="{{row.Other_funds }}" class="editbox" id="fourteen_input_{{row.id}}" />
+            </td>
+         </tr>
+         {% endfor %}
+       </table>
+    <p><input type="submit" name="btn" value="submit"></p>    
+</form>
+
+</body>
+
+
+
+
+
+
+
+#Another backup file
+
+<!-- create a folder named templates, put this file into it -->
+<!DOCTYPE html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<title>All entries</title>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    
+   // Show Input element
+   $('.edit').click(function(){
+    $('.txtedit').hide();
+    $(this).next('.txtedit').show().focus();
+    $(this).hide();
+   });
+   
+   // Save data
+   $(".txtedit").focusout(function(){
+     
+    // Get edit id, field name and value
+    var id = this.id;
+    var ID=$(this).attr('id');
+    var split_id = id.split("_");
+    var field_name = split_id[0];
+    var edit_id = split_id[1];
+    var value = $(this).val();
+      // var ID=$(this).attr('id');
+    var data_id = $(this).attr('data_id' +data_id);
+    var reciepttotal=$("#reciepttotal_" +data_id).val();
+    var tithe=$("#tithe_" +data_id).val();
+    var campoff=$("#campoff_" +data_id).val();
+    var sabbathsch=$("#sabbathsch_" +data_id).val();
+    var birthday=$("#birthday_" +data_id).val();
+    var divine=$("#divine_" +data_id).val();
+    var thirdsabb=$("#thirdsabb_" +data_id).val();
+    var generalconf=$("#generalconf_" +data_id).val();
+    var operationunity=$("#operationunity_" +data_id).val();
+    var primeradio=$("#primeradio_" +data_id).val();
+    var lunch=$("#lunch_" +data_id).val();
+    var evangelism=$("#evangelism_" +data_id).val();
+    var building=$("#building_" +data_id).val();
+    var otherfunds=$("#otherfunds_" +data_id).val();
+    //var data = { id:edit_id ,reciepttotal:reciepttotal, tithe:tithe, campoff:campoff, sabbathsch:sabbathsch, birthday:birthday, divine:divine, thirdsabb:thirdsabb, generalconf:generalconf, operationunity:operationunity, primeradio:primeradio, lunch:lunch, evangelism:evangelism, building:building, otherfunds:otherfunds}
+    
+    // Hide Input element
+    $(this).hide();
+   
+    // Hide and Change Text of the container with input elmeent
+    $(this).prev('.edit').show();
+    $(this).prev('.edit').text(value);
+   
+    $.ajax({
+    type: 'POST', 
+      // dataType: 'json',
+     url: '/ajax',
+     data: { id:edit_id , reciepttotal:reciepttotal, tithe:tithe, campoff:campoff, sabbathsch:sabbathsch, birthday:birthday, divine:divine, thirdsabb:thirdsabb, generalconf:generalconf, operationunity:operationunity, primeradio:primeradio, lunch:lunch, evangelism:evangelism, building:building, otherfunds:otherfunds},
+     //data: JSON.stringify({ 'id':edit_id, 'reciepttotal':5.0, 'tithe':5.0, 'campoff':5.0, 'sabbathsch':5.0, 'birthday':5.0, 'divine':5.0, 'thirdsabb':5.0, 'generalconf':5.0, 'operationunity':5.0, 'primeradio':5.0, 'lunch':5.0, 'evangelism':5.0, 'building':5.0, 'otherfunds':5.0}),
+     //data: JSON.stringify(data),
+      dataType: "json",
+      contentType : 'application/json',
+      success:function(response){
+        if(response == 1){ 
+           console.log('Save successfully'); 
+        }else{ 
+           console.log("Not saved.");  
+        }
+     }
+    });
+    
+   });
+   
+  });
+  </script>
+</head>
+
+<body>
+<h1>All Entries</h1>
+
+<body >
+<form method="POST" action="">
+  <div class="container" >
+      <div class="row" style="padding:50px;">
+          <p><h1>Live Editable Table using Python Flask Mysql and Jquery Ajax</h1></p>
+          <table width='100%' border='0'>
+           <tr>
+            <tr class="head">
+              {% for head in headers%}
+                  <th>{{ head }}</th>
+              {% endfor %}    
+          </tr>
+          {% for row in entries %}
+              
+           <tr>
+            <td>{{row.id}}</td>
+            <td> 
+              <div class='edit' > {{row.reciept_total }}</div> 
+              <input type='number' step="any" name='reciepttotal' class='txtedit' value='{{row.reciept_total}}' id='reciepttotal_{{row.id}}' >
+            </td>
+            <td> 
+             <div class='edit' >{{row.tithe}} </div> 
+             <input type='number' name='tithe' class='txtedit' value='{{row.tithe}}' id='tithe_{{row.id}}' >
+            </td>
+            <td> 
+              <div class='edit' >{{row.camp_off}} </div> 
+              <input type='number' name='campoff' class='txtedit' value='{{row.camp_off}}' id='campoff_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.sabbath_sch}} </div> 
+              <input type='number' name='sabbathsch' class='txtedit' value='{{row.sabbath_sch}}' id='sabbathsch_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.birthday}} </div> 
+              <input type='number' name='birthday' class='txtedit' value='{{row.birthday}}' id='birthday_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.divine}} </div> 
+              <input type='number' name='divine' class='txtedit' value='{{row.divine}}' id='divine_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.third_sabb}} </div> 
+              <input type='number' name='thirdsabb' class='txtedit' value='{{row.third_sabb}}' id='thirdsabb_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.general_conf}} </div> 
+              <input type='number' name='generalconf' class='txtedit' value='{{row.general_conf}}' id='generalconf_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.operation_unity}} </div> 
+              <input type='number' name='operationunity' class='txtedit' value='{{row.operation_unity}}' id='operationunity_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.prime_radio}} </div> 
+              <input type='number' name='primeradio' class='txtedit' value='{{row.prime_radio}}' id='primeradio_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.lunch}} </div> 
+              <input type='number' name='lunch' class='txtedit' value='{{row.lunch}}' id='lunch_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.evangelism}} </div> 
+              <input type='number' nmae='evangelism' class='txtedit' value='{{row.evangelism}}' id='evangelism_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.building}} </div> 
+              <input type='number' name='building' class='txtedit' value='{{row.building}}' id='building_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.other_funds}} </div> 
+              <input type='number' name='otherfunds' class='txtedit' value='{{row.other_funds}}' id='otherfunds_{{row.id}}' >
+             </td>
+           </tr>
+           {% endfor %} 
+          </table>
+     </div>
+  </div>
+  </form>
+  <style>
+  .edit{
+   width: 100%;
+   height: 25px;
+  }
+  .editMode{
+   border: 1px solid black;
+  }
+  table {
+   border:3px solid lavender;
+   border-radius:3px;
+  }
+  table tr:nth-child(1){
+   background-color:#4285f4;
+  }
+  table tr:nth-child(1) th{
+   color:white;
+   padding:10px 0px;
+   letter-spacing: 1px;
+  }
+  table td{
+   padding:10px;
+  }
+  table tr:nth-child(even){
+   background-color:lavender;
+   color:black;
+  }
+  .txtedit{
+   display: none;
+   width: 99%;
+   height: 30px;
+  }
+  </style>
+  </body>
+
+</body>
+</html>
+
+
+
+
+
+
+<script src="static/js/app.js"></script>
+
+
+
+
+          
+{% for project in projects %}
+<!-- Optionally Print the project name righ here -->
+<h4><p>{{project.project_name}}</p></h4>
+{% for account in project.accounts %}
+<p>{{account.name}}</p>
+<p>{{account.contribution.amount}}</p>
+{% endfor %}
+{% endfor %}
+
+
+<button id="merge" class="btn btn-success">Merge</button>

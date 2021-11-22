@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Javascript HTML Table - Sum</title>
+        <meta charset="windows-1252">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+        <link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+        <script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+        <script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="/static/sample.css" />
+        <script src="/static/js/script.js"></script>
+
+
+
+      
+<script type='text/javascript'>
+    $(document).ready(function () {
+    
+    //var table = document.getElementById("table");
+    var table = document.getElementById('table');
+    //var lastRow=table.find('tr:last');
+    //var tithe = lastRow.cells[0];
+    var lastRow = table.rows[table.rows.length-1];
+    var lastCell = lastRow.cells[lastRow.cells.length-1].innerHTML;  
+    var testcell2 = lastRow.cells[1].innerHTML;
+    //var rowIndex = 3;
+    //var cellIndex = 2;    
+    //var testcell = table.rows[rowIndex].cells[cellIndex]
+    var rowIndex = 3;
+    var cellIndex = 1;
+    var testcell = table.rows[rowIndex].cells[cellIndex].innerHTML;
+      
+    document.getElementById("testval").innerHTML = "Test Value = " + lastCell;
+        console.log(lastCell);
+        alert(testcell)//all these are working
+        alert(lastCell)//all
+        alert(testcell2)
+    });  
+    </script>
+    
+
+    
+<script type='text/javascript'>
+    $(document).ready(function(){
+        
+    var firstArray = [1,2,3,4,5,6];
+    var secondArray = [6,5,4,3,2,1];
+    var thirdArray = [1,1,1]; 
+    var myListOfArrays = [];
+    
+    mylistOfArrays.push(firstArray);
+    mylistOfArrays.push(secondArray);
+    mylistOfArrays.push(thirdArray);
+
+    document.getElementById("obj").innerHTML = "Test Value = " + myListOfArrays;
+    console.log(myListOfArrays);
+     
+    });  
+
+                
+    </script>
+    
+  
+    </head>
+    <body>
+       
+        <table id="table" border="1">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Value</th>
+            </tr>
+            <tr>
+                <td>A1</td>
+                <td>B1</td>
+                <td>43</td>
+            </tr>
+            <tr>
+                <td>A2</td>
+                <td>B2</td>
+                <td>28</td>
+            </tr>
+            <tr>
+                <td>A3</td>
+                <td>B3</td>
+                <td>15</td>
+            </tr>
+            <tr>
+                <td>A4</td>
+                <td>B4</td>
+                <td>50</td>
+            </tr>
+            <tr>
+                <td>A5</td>
+                <td>B5</td>
+                <td>31</td>
+            </tr>
+            <tr>
+                <td>A6</td>
+                <td>B6</td>
+                <td>85</td>
+            </tr>
+            <tr>
+                <td>A7</td>
+                <td>B7</td>
+                <td>18</td>
+            </tr>
+        </table>
+        <span id="val"></span>
+        <span id="tot"></span>
+        <span id="testval"></span>
+        <br>
+        <span id="obj"></span>
+        
+        <script>
+            
+            var table = document.getElementById("table"), sumVal = 0;
+            
+            for(var i = 1; i < table.rows.length; i++)
+            {
+                sumVal = sumVal + parseInt(table.rows[i].cells[2].innerHTML);
+            }
+            
+            document.getElementById("val").innerHTML = "Sum Value = " + sumVal;
+            console.log(sumVal);
+            
+        </script>
+
+
+<script>
+
+var vote1 = [45125, 44498, 5143]
+
+function totalVotes(votes) {
+  var total = 0;
+  for (var i = 0; i < votes.length; i++) {
+    total += votes[i];
+  }
+  return total;
+}
+
+// better alternative
+function tallyVotes(votes) {
+  return votes.reduce((total, vote) => total + vote, 0);
+}
+
+console.log('for loop: ', totalVotes(vote1));
+console.log('reduce: ', tallyVotes(vote1));
+
+document.getElementById("tot").innerHTML = "Sum Value = " + totalVotes(vote1);
+console.log(totalVotes(vote1));
+            
+</script>
+
+
+
+<script type="text/javascript">
+    $(document).ready(function () {
+    
+    var table = document.getElementById("table");
+    //var lastRow=table.find('tr:last');
+    //var tithe = lastRow.cells[0];
+    var lastRow = table.rows[table.rows.length-1];
+    var lastCell = lastRow.cells[lastRow.cells.length-1];  
+    var rowIndex = 3;
+    var cellIndex = 2;    
+    var testcell = table.rows[rowIndex].cells[cellIndex]
+      
+    document.getElementById("testval").innerHTML = "Test Value = " + testcell;
+        console.log(testcell);
+       
+    
+    
+    });  
+    </script>
+    
+
+    
+
+        
+    </body>
+</html>

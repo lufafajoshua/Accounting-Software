@@ -1,0 +1,212 @@
+<!-- create a folder named templates, put this file into it -->
+<!DOCTYPE html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+<link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+<script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+<script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/sample.css" />
+<script src="/static/js/jquery.min.js"></script>  
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+
+<title>All entries</title>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    
+   // Show Input element
+   $('.edit').click(function(){
+    $('.txtedit').hide();
+    $(this).next('.txtedit').show().focus();
+    $(this).hide();
+   });
+   
+   // Save data
+   $(".txtedit").focusout(function(){
+     
+    // Get edit id, field name and value
+    var id = this.id;
+    //var ID=$(this).attr('id');
+    var split_id = id.split("_");
+    var field_name = split_id[0];
+    var edit_id = split_id[1];
+    var value = $(this).val();
+    // Hide Input element
+    $(this).hide();
+   
+    // Hide and Change Text of the container with input elmeent
+    $(this).prev('.edit').show();
+    $(this).prev('.edit').text(value);
+   
+    $.ajax({
+    type: 'POST', 
+      // dataType: 'json',
+     url: 'editallocatemoney' ,
+     //data: { id:edit_id , reciepttotal:reciepttotal, tithe:tithe, campoff:campoff, sabbathsch:sabbathsch, birthday:birthday, divine:divine, thirdsabb:thirdsabb, generalconf:generalconf, operationunity:operationunity, primeradio:primeradio, lunch:lunch, evangelism:evangelism, building:building, otherfunds:otherfunds},
+     data: { field:field_name, value:value, id:edit_id }, 
+      // dataType: "json",
+      //   contentType : 'application/json',
+      success:function(response){
+        if(response == 1){ 
+           console.log('Save successfully'); 
+        }else{ 
+           console.log("Not saved.");  
+        }
+     }
+    });
+    
+   });
+   
+  });
+  </script>
+
+  
+</head>
+
+<body id="tbody">
+<h1>Entry</h1>
+
+
+<form method="POST" action="">
+  <div class="container" >
+      <div class="row" style="padding:50px;">
+          <p><h1>Live Editable Table using Python Flask Mysql and Jquery Ajax</h1></p>
+          <table  id="workweek" width='100%' border='0'>
+           <tr>
+            <tr class="head">
+              {% for head in headers%}
+                  <th>{{ head }}</th>
+              {% endfor %}     
+          </tr>
+          
+              
+           <tr>
+            <td>{{entry.id}}</td>
+            {%for a in accounts%}
+            {% if entry.account_id == a.id %}
+            <td>
+                  {{a.name}}  
+            </td>
+            {%endif%}
+            {%endfor%}
+            <td class="reciept_total"> 
+              <div class='edit' > {{entry.reciept_total }}</div> 
+              <input type='number' step="any" name='reciepttotal' class='txtedit' value='{{entry.reciept_total}}' id='reciepttotal_{{entry.id}}' >
+            </td>
+            <td> 
+             <div class='edit' >{{entry.tithe}} </div> 
+             <input type='number' name='tithe' class='txtedit' value='{{entry.tithe}}' id='tithe_{{entry.id}}' >
+            </td>
+            <td> 
+              <div class='edit' >{{entry.camp_off}} </div> 
+              <input type='number' name='campoff' class='txtedit' value='{{entry.camp_off}}' id='campoff_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.sabbath_sch}} </div> 
+              <input type='number' name='sabbathsch' class='txtedit' value='{{entry.sabbath_sch}}' id='sabbathsch_{{entry.id}}' >
+             </td>
+             <td id='birthday'> 
+              <div class='edit'>{{entry.birthday}} </div> 
+              <input type='number' name='birthday' class='txtedit' value='{{entry.birthday}}' id='birthday_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.divine}} </div> 
+              <input type='number' name='divine' class='txtedit' value='{{entry.divine}}' id='divine_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.third_sabb}} </div> 
+              <input type='number' name='thirdsabb' class='txtedit' value='{{entry.third_sabb}}' id='thirdsabb_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.general_conf}} </div> 
+              <input type='number' name='generalconf' class='txtedit' value='{{entry.general_conf}}' id='generalconf_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.operation_unity}} </div> 
+              <input type='number' name='operationunity' class='txtedit' value='{{entry.operation_unity}}' id='operationunity_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.prime_radio}} </div> 
+              <input type='number' name='primeradio' class='txtedit' value='{{entry.prime_radio}}' id='primeradio_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.lunch}} </div> 
+              <input type='number' name='lunch' class='txtedit' value='{{entry.lunch}}' id='lunch_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.evangelism}} </div> 
+              <input type='number' name='evangelism' class='txtedit' value='{{entry.evangelism}}' id='evangelism_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.building}} </div> 
+              <input type='number' name='building' class='txtedit' value='{{entry.building}}' id='building_{{entry.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{entry.other_funds}} </div> 
+              <input type='number' name='otherfunds' class='txtedit' value='{{entry.other_funds}}' id='otherfunds_{{entry.id}}' >
+             </td>
+
+        </tr>
+
+          </table>
+
+          
+
+     </div>
+  </div>
+
+  
+  {{ form.csrf_token() }}
+  {% for field in form if field.name != "csrf_token" %}
+
+      <p>{{ field.label() }}</p>
+      <p>{{ field }}
+          {% for error in field.errors %}
+              {{ error }}
+          {% endfor %}
+      </p>        
+  {% endfor %}
+  <p><input type="submit" name="btn" value="submit"></p> 
+  </form>
+  <style>
+  .edit{
+   width: 100%;
+   height: 25px;
+  }
+  .editMode{
+   border: 1px solid black;
+  }
+  table {
+   border:3px solid lavender;
+   border-radius:3px;
+  }
+  table tr:nth-child(1){
+   background-color:#4285f4;
+  }
+  table tr:nth-child(1) th{
+   color:white;
+   padding:10px 0px;
+   letter-spacing: 1px;
+  }
+  table td{
+   padding:10px;
+  }
+  table tr:nth-child(even){
+   background-color:lavender;
+   color:black;
+  }
+  .txtedit{
+   display: none;
+   width: 99%;
+   height: 30px;
+  }
+  </style>
+
+<br>
+
+
+</body>
+</html>

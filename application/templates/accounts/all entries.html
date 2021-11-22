@@ -1,0 +1,464 @@
+<!-- create a folder named templates, put this file into it -->
+<!DOCTYPE html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+<link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+<script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+<script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/sample.css" />
+<script src="/static/js/jquery.min.js"></script>  
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+
+<title>All entries</title>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    
+   // Show Input element
+   $('.edit').click(function(){
+    $('.txtedit').hide();
+    $(this).next('.txtedit').show().focus();
+    $(this).hide();
+   });
+   
+   // Save data
+   $(".txtedit").focusout(function(){
+     
+    // Get edit id, field name and value
+    var id = this.id;
+    //var ID=$(this).attr('id');
+    var split_id = id.split("_");
+    var field_name = split_id[0];
+    var edit_id = split_id[1];
+    var value = $(this).val();
+    // Hide Input element
+    $(this).hide();
+   
+    // Hide and Change Text of the container with input elmeent
+    $(this).prev('.edit').show();
+    $(this).prev('.edit').text(value);
+   
+    $.ajax({
+    type: 'POST', 
+      // dataType: 'json',
+     url: '/update',
+     //data: { id:edit_id , reciepttotal:reciepttotal, tithe:tithe, campoff:campoff, sabbathsch:sabbathsch, birthday:birthday, divine:divine, thirdsabb:thirdsabb, generalconf:generalconf, operationunity:operationunity, primeradio:primeradio, lunch:lunch, evangelism:evangelism, building:building, otherfunds:otherfunds},
+     data: { field:field_name, value:value, id:edit_id }, 
+      // dataType: "json",
+      //   contentType : 'application/json',
+      success:function(response){
+        if(response == 1){ 
+           console.log('Save successfully'); 
+        }else{ 
+           console.log("Not saved.");  
+        }
+     }
+    });
+    
+   });
+   
+  });
+  </script>
+
+  
+<script type='text/javascript'>
+$(document).ready(function(){
+  $('a').click(function(){
+              $(this).each(function() {
+                  var $this = $("#table3");
+                  var newrows = [];
+                  $this.find('tr').each(function(){
+                      var i = 0;
+                      $(this).find('td').each(function(){
+                          i++;
+                          if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                          newrows[i].append($(this));
+                      });
+                  });
+                  $this.find('tr').remove();
+                  $.each(newrows, function(){
+                      $this.append(this);
+                  });
+              });
+          
+              return false;
+          });
+        });  
+          
+</script>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+
+      function swap( cells, x, y ){
+      if( x != y ){     
+      var $cell1 = cells[y][x];
+      var $cell2 = cells[x][y];
+      $cell1.replaceWith( $cell2.clone() );
+      $cell2.replaceWith( $cell1.clone() );
+          }
+      }
+
+      var cells = [];
+      $("#table0").find('tr').each(function(){
+          var row = [];
+          $(this).find('td').each(function(){
+          row.push( $(this) );    
+          });
+          cells.push( row );
+      });
+  
+      for( var y = 0; y <= cells.length/2; y++ ){
+          for( var x = 0; x < cells[y].length; x++ ){
+              swap( cells, x, y );
+          }   
+      }
+  });
+
+  </script>
+       
+
+
+  
+
+</head>
+
+<body>
+<h1>All Entries</h1>
+
+
+<form method="POST" action="">
+  <div class="container" >
+      <div class="row" style="padding:50px;">
+          <p><h1>Live Editable Table using Python Flask Mysql and Jquery Ajax</h1></p>
+          <table width='100%' border='0'>
+           <tr>
+            <tr class="head">
+              {% for head in headers%}
+                  <th>{{ head }}</th>
+              {% endfor %}     
+          </tr>
+          {% for row in entries %}
+              
+           <tr>
+            <td>{{row.id}}</td>
+            {%for a in accounts%}
+            {% if row.account_id == a.id %}
+            <td>
+                  {{a.name}}  
+            </td>
+            {%endif%}
+            {%endfor%}
+            <td> 
+              <div class='edit' > {{row.reciept_total }}</div> 
+              <input type='number' step="any" name='reciepttotal' class='txtedit' value='{{row.reciept_total}}' id='reciepttotal_{{row.id}}' >
+            </td>
+            <td> 
+             <div class='edit' >{{row.tithe}} </div> 
+             <input type='number' name='tithe' class='txtedit' value='{{row.tithe}}' id='tithe_{{row.id}}' >
+            </td>
+            <td> 
+              <div class='edit' >{{row.camp_off}} </div> 
+              <input type='number' name='campoff' class='txtedit' value='{{row.camp_off}}' id='campoff_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.sabbath_sch}} </div> 
+              <input type='number' name='sabbathsch' class='txtedit' value='{{row.sabbath_sch}}' id='sabbathsch_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.birthday}} </div> 
+              <input type='number' name='birthday' class='txtedit' value='{{row.birthday}}' id='birthday_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.divine}} </div> 
+              <input type='number' name='divine' class='txtedit' value='{{row.divine}}' id='divine_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.third_sabb}} </div> 
+              <input type='number' name='thirdsabb' class='txtedit' value='{{row.third_sabb}}' id='thirdsabb_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.general_conf}} </div> 
+              <input type='number' name='generalconf' class='txtedit' value='{{row.general_conf}}' id='generalconf_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.operation_unity}} </div> 
+              <input type='number' name='operationunity' class='txtedit' value='{{row.operation_unity}}' id='operationunity_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.prime_radio}} </div> 
+              <input type='number' name='primeradio' class='txtedit' value='{{row.prime_radio}}' id='primeradio_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.lunch}} </div> 
+              <input type='number' name='lunch' class='txtedit' value='{{row.lunch}}' id='lunch_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.evangelism}} </div> 
+              <input type='number' nmae='evangelism' class='txtedit' value='{{row.evangelism}}' id='evangelism_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.building}} </div> 
+              <input type='number' name='building' class='txtedit' value='{{row.building}}' id='building_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.other_funds}} </div> 
+              <input type='number' name='otherfunds' class='txtedit' value='{{row.other_funds}}' id='otherfunds_{{row.id}}' >
+             </td>
+        </tr>
+          {% endfor %} 
+          </table>
+          <br>
+          
+          <br>
+
+          <table id="table1">
+            <thead>
+            <th>Name</th>
+            </thead>
+            </tbody>
+            <tr>
+              {%for row in accounts%}
+              <tr>
+              <td>{{row.name}}</td>
+              </tr>
+              {%endfor%}
+              </tr>
+            </tbody>
+          </table>
+
+          <table id="table2">
+            <thead>
+            <tr>
+             {%for key in keys%}
+             <th>{{key}}</th>
+             {%endfor%}
+            </tr>
+            </thead>
+
+            </tbody>
+              <tr>
+              
+              <tr>
+                 
+              {%- for row in data%}
+              {%for x in row%}
+                 <td>{{x}}</td>
+                 
+              {%- endfor %}
+             </tr>
+              {%endfor%} 
+            </tr>
+            </tbody>
+            
+          </table>
+          <br>
+          <br>
+
+          <table>
+            <thead class="head">
+              {% for project in projects%}
+              <th>{{ project.project_name }}</th>
+                
+            </thead>
+            <tbody>
+            {% for account in project.accounts %}
+            <tr>
+            <tr>
+              <td>{{account.name}}</td>
+              <td>{{account.contribution.amount}}</td>
+            </tr>
+            </tr>
+            {% endfor %}
+            {%endfor%}
+            </tbody>
+
+          </table>
+
+
+
+                    
+          <table>
+            <thead class="head">
+              {% for project in projects%}
+              <th>{{ project.project_name }}</th>
+              
+                
+            </thead>
+            <tbody>
+            {%for cont in project.contributions%}
+            {%for account in project.accounts%}
+            <tr>
+            <tr>
+              {%if cont.account_id==account.id%}
+              <td>{{account.name}}</td>
+              <td>{{cont.amount}}</td>
+              {%endif%}
+            </tr>
+            </tr>
+            {% endfor %}
+            {%endfor%}
+            {%endfor%}
+            </tbody>
+
+          </table>
+
+          <table>
+            <thead class="head">
+              {% for project in projects%}
+              <th>{{ project.project_name }}</th>
+              
+            </thead>
+            <tbody>
+            {%for cont in contributions%}
+            <tr>
+            <tr>
+             
+              {%if cont.project_id==project.id%}
+              <td>{{cont.amount}}</td>
+              {%endif%}
+             
+            </tr>
+            </tr>
+            
+            {%endfor%}
+            {%endfor%}
+            </tbody>
+
+          </table>
+
+
+          <table id='table3'>
+            <thead>
+           
+            <tbody>
+            
+          
+              {%for cont in values%}
+            <tr>
+              
+              {%for x in cont%}
+              <td>{{x}}</td>
+              {%endfor%}
+              
+            </tr>
+            {%endfor%}
+           
+            
+           
+            
+            </tbody>
+
+          </table>
+
+          <table id="table0">
+            <tr>
+                <td>1</td>
+                <td>4</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>5</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>6</td>
+                <td>9</td>
+            </tr>
+        </table>
+        
+
+
+     </div>
+  </div>
+  </form>
+  <style>
+  .edit{
+   width: 100%;
+   height: 25px;
+  }
+  .editMode{
+   border: 1px solid black;
+  }
+  table {
+   border:3px solid lavender;
+   border-radius:3px;
+  }
+  table tr:nth-child(1){
+   background-color:#4285f4;
+  }
+  table tr:nth-child(1) th{
+   color:white;
+   padding:10px 0px;
+   letter-spacing: 1px;
+  }
+  table td{
+   padding:10px;
+  }
+  table tr:nth-child(even){
+   background-color:lavender;
+   color:black;
+  }
+  .txtedit{
+   display: none;
+   width: 99%;
+   height: 30px;
+  }
+  </style>
+
+<br>
+<p><a href="#">Do it.</a></p>
+        <button id="a">Do it</button>
+
+<table id="table4">
+  
+ 
+  <tbody>
+  
+
+    {%for cont in values%}
+  <tr>
+    
+    {%for x in cont%}
+    <td>{{x}}</td>
+    {%endfor%}
+    
+  </tr>
+  {%endfor%}
+ 
+  
+ 
+  </tbody>
+
+</table>
+
+
+ <p><br>
+<table id="table5">
+  <tr>
+      <td>1</td>
+      <td>4</td>
+      <td>7</td>
+  </tr>
+  <tr>
+      <td>2</td>
+      <td>5</td>
+      <td>8</td>
+  </tr>
+  <tr>
+      <td>3</td>
+      <td>6</td>
+      <td>9</td>
+  </tr>
+
+</table>
+</p>
+
+
+</body>
+</html>

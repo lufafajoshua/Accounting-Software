@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Double Range Slider</title>
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap" rel="stylesheet">
+    <!--Stylesheet-->
+    <link rel="stylesheet" href="/static/slider.css">
+</head>
+<body>
+    <div class="wrapper">
+        <div class="values">
+            <span id="range1">
+                0
+            </span>
+            <span> &dash; </span>
+            <span id="range2">
+                100
+            </span>
+        </div>
+        <div class="container">
+            <div class="slider-track"></div>
+            <input type="range" min="0" max="100" value="30" id="slider-1" oninput="slideOne()">
+            <input type="range" min="0" max="100" value="70" id="slider-2" oninput="slideTwo()">
+        </div>
+    </div>
+    
+    <!--Script-->
+    <script src="/static/slider.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+    <!-- Other table elements -->
+
+    <table id="navigate">
+        <tr><td contenteditable>A1</td><td contenteditable>A2</td><td contenteditable>A3</td><td contenteditable>A4</td></tr>
+        <tr><td contenteditable>A1</td><td contenteditable>A2</td><td contenteditable>A3</td><td contenteditable>A4</td></tr>
+        <tr><td contenteditable>A1</td><td contenteditable>A2</td><td contenteditable>A3</td><td contenteditable>A4</td></tr>
+        <tr><td contenteditable>A1</td><td contenteditable>A2</td><td contenteditable>A3</td><td contenteditable>A4</td></tr>
+      </table> 
+
+
+        <!-- Csss -->
+      
+        * {
+            font-size: 12px;
+            font-family: 'Helvetica', Arial, Sans-Serif;
+            box-sizing: border-box;
+        }
+        
+        table, th, td {
+            border-collapse:collapse;
+            border: solid 1px #ccc;
+            padding: 10px 20px;
+            text-align: center;
+        }
+        
+        th {
+            background: #0f4871;
+            color: #fff;
+        }
+        
+        tr:nth-child(2n) {
+            background: #f1f1f1;
+        }
+        td:hover {
+            color: #fff;
+            background: #CA293E;
+        }
+        td:focus {
+            background: #f44;
+        }
+        
+        .editing {
+            border: 2px dotted #c9c9c9;
+        }
+        
+        #edit { 
+            display: none;
+        }
+
+        
+
+            <!-- Javascript -->
+            var active = 0;
+
+
+$(document).keydown(function(e){
+    reCalculate(e);
+    rePosition();
+    return false;
+});
+    
+$('td').click(function(){
+   active = $(this).closest('table').find('td').index(this);
+   rePosition();
+});
+
+
+function reCalculate(e){
+    var rows = $('#navigate tr').length;
+    var columns = $('#navigate tr:eq(0) td').length;
+    //alert(columns + 'x' + rows);
+    
+    if (e.keyCode == 37) { //move left or wrap
+        active = (active>0)?active-1:active;
+    }
+    if (e.keyCode == 38) { // move up
+        active = (active-columns>=0)?active-columns:active;
+    }
+    if (e.keyCode == 39) { // move right or wrap
+       active = (active<(columns*rows)-1)?active+1:active;
+    }
+    if (e.keyCode == 40) { // move down
+        active = (active+columns<=(rows*columns)-1)?active+columns:active;
+    }
+}
+
+function rePosition(){
+    $('.active').removeClass('active');
+    $('#navigate tr td').eq(active).addClass('active').trigger( "focus" );
+    scrollInView();
+}
+
+function scrollInView(){
+    var target = $('#navigate tr td:eq('+active+')');
+    if (target.length)
+    {
+        var top = target.offset().top;
+        
+        $('html,body').stop().animate({scrollTop: top-100}, 400);
+        return false;
+    }
+}

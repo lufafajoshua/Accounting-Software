@@ -1,0 +1,374 @@
+<!-- create a folder named templates, put this file into it -->
+<!DOCTYPE html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+<link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+<script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+<script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/sample.css" />
+<script src="/static/js/jquery.min.js"></script>  
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+
+<title>All entries</title>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    
+   // Show Input element
+   $('.edit').click(function(){
+    $('.txtedit').hide();
+    $(this).next('.txtedit').show().focus();
+    $(this).hide();
+   });
+   
+   // Save data
+   $(".txtedit").focusout(function(){
+     
+    // Get edit id, field name and value
+    var id = this.id;
+    //var ID=$(this).attr('id');
+    var split_id = id.split("_");
+    var field_name = split_id[0];
+    var edit_id = split_id[1];
+    var value = $(this).val();
+    // Hide Input element
+    $(this).hide();
+   
+    // Hide and Change Text of the container with input elmeent
+    $(this).prev('.edit').show();
+    $(this).prev('.edit').text(value);
+   
+    $.ajax({
+    type: 'POST', 
+      // dataType: 'json',
+     url: '/update',
+     //data: { id:edit_id , reciepttotal:reciepttotal, tithe:tithe, campoff:campoff, sabbathsch:sabbathsch, birthday:birthday, divine:divine, thirdsabb:thirdsabb, generalconf:generalconf, operationunity:operationunity, primeradio:primeradio, lunch:lunch, evangelism:evangelism, building:building, otherfunds:otherfunds},
+     data: { field:field_name, value:value, id:edit_id }, 
+      // dataType: "json",
+      //   contentType : 'application/json',
+      success:function(response){
+        if(response == 1){ 
+           console.log('Save successfully'); 
+        }else{ 
+           console.log("Not saved.");  
+        }
+     }
+    });
+    
+   });
+   
+  });
+  </script>
+
+  
+<script type='text/javascript'>
+$(document).ready(function(){
+  $('a').click(function(){
+              $(this).each(function() {
+                  var $this = $("#table3");
+                  var newrows = [];
+                  $this.find('tr').each(function(){
+                      var i = 0;
+                      $(this).find('td').each(function(){
+                          i++;
+                          if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                          newrows[i].append($(this));
+                      });
+                  });
+                  $this.find('tr').remove();
+                  $.each(newrows, function(){
+                      $this.append(this);
+                  });
+              });
+          
+              return false;
+          });
+        });  
+          
+</script>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    for (var i=1; i<8; i++)
+{
+    var sum = 0;
+    // iteration through all td's in the column
+    $('#workweek>tbody>tr>td:nth-child(' + i + ')').each( function(){
+        sum += parseInt($(this).text()) || 0;
+    });
+    // set total in last cell of the column
+    $('#workweek>tbody>tr>td:nth-child(' + i + ')').last().html(sum);
+    $('#workweek>tbody>tr>td:nth-child(' + i + ')').last().toggleClass('total');
+}
+
+      
+  });
+
+  </script>
+
+
+<script type="text/javascript">
+
+    $(function() {
+
+       var TotalValue = 0;
+
+       $("tr #loop").each(function(index,value){
+         currentRow = parseFloat($(this).text());
+         TotalValue += currentRow
+       });
+
+       document.getElementById('total').innerHTML = TotalValue;
+   
+});
+</script>
+
+
+       
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    
+$('.txtfld').bind({
+            keyup:function(){ 
+         //total calculation
+                    $(".printer-type tr:not(:first, last) td:last-child").text(function () {
+                        var totalVal = 0;
+                        $(this).prevAll().each(function () {
+                            totalVal += parseInt($(this).children('.txtfld').val()) || 0;
+                            //totalVal += parseInt( );
+                        });
+                        return totalVal;
+                    });
+
+                    $(".printer-type tr:last td").text(function (i) {
+                        var totalVal = 0;
+                        $(this).parent().prevAll().find("td:nth-child(" + (++i) + ")").each(function () {
+                            totalVal += parseInt($(this).children('.txtfld').val()) || 0;
+                            $(".printer-type tr:last td:first").text('Total sheets/year');
+                        });
+                        return totalVal;
+
+                    });
+					
+					var count=0
+					for(i=1;i<$('tr').length;i++){
+						var trs=parseInt($('tr:eq('+i+')').find('td:last').text())
+						count+=trs
+					}
+					$(".printer-type tr:last td:last").text(count)
+                 
+            }
+        });
+
+      
+  });
+
+  </script>
+
+
+  
+
+</head>
+
+<body>
+<h1>Entries</h1>
+
+
+<form method="POST" action="">
+  
+<div class="container">
+    <div class="row">
+    <div class="col-md-6">
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th>1</th>
+    <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    <tr>
+      <td>1</td>
+      <td id="loop">50</td>
+    </tr>
+    
+    <tr>
+      <td>1</td>
+      <td id="loop">60</td>
+    </tr>
+    
+    <tr>
+      <td>1</td>
+      <td id="loop">70</td>
+    </tr>
+    
+    </tbody>
+    
+    <tbody>
+    <tr>
+       <td class="text-right">Total</td>
+       <td id="total"></td>
+    </tr>
+    
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+
+
+    
+<table id="workweek" class="wwtable">
+    <tr><th>sunday</th><th>monday</th><th>tuesday</th><th>wednesday</th><th>thursday</th><th>friday</th><th>saturday</th></tr>
+    <tr><td>8 </td><td>1</td><td> </td><td> </td><td> </td><td> </td><td>8</td></tr>
+    <tr><td>8 </td><td>2</td><td>3</td><td> </td><td>5</td><td>8</td><td> </td></tr>
+    <tr><td>4 </td><td>3</td><td>4</td><td>4</td><td> </td><td> </td><td>6</td></tr>
+    <tr><td>8 </td><td>9</td><td> </td><td>4</td><td> </td><td>5</td><td> </td></tr>
+    <tr><td>9 </td><td>5</td><td>3</td><td> </td><td>5</td><td> </td><td> </td></tr>
+    <tr><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td><td> </td></tr>
+    </table>
+
+
+    <div class="printer-type">
+      <table width="580" border="0" class="printer-row">
+        <tr>
+          <td>&nbsp;</td>
+          <td>8X10 in</td>
+          <td>10X12 in</td>
+          <td>8X10 in Memmo</td>
+          <td>10X12 in Memmo</td>
+          <td>11X14 in</td>
+          <td>14X14 in</td>
+          <td>14X17 in</td>
+          <td>Total sheets/year</td>
+        </tr>
+        <tr>
+          <td>Item 5700</td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Item 5700</td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>FUJI DRYPIX 400</td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>AGFA Drystar 3000</td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td><input type="text" class="txtfld" placeholder="edit"></td>
+          <td>&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Total sheets/year</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+      </div>
+        
+
+
+
+    
+  </form>
+  <style>
+  .edit{
+   width: 100%;
+   height: 25px;
+  }
+  .editMode{
+   border: 1px solid black;
+  }
+  table {
+   border:3px solid lavender;
+   border-radius:3px;
+  }
+  table tr:nth-child(1){
+   background-color:#4285f4;
+  }
+  table tr:nth-child(1) th{
+   color:white;
+   padding:10px 0px;
+   letter-spacing: 1px;
+  }
+  table td{
+   padding:10px;
+  }
+  table tr:nth-child(even){
+   background-color:lavender;
+   color:black;
+  }
+  .txtedit{
+   display: none;
+   width: 99%;
+   height: 30px;
+  }
+  
+.wwtable td {
+    text-align: center;
+}
+
+.total {
+    background-color: #000;
+    color: #fff;
+    font-weight: bold;
+}
+
+
+
+        .txtfld{ width:50px;}
+.printer-row{border-collapse: collapse;}
+.printer-row td{border:1px solid #ccc;}
+
+
+
+
+  </style>
+
+</body>
+</html>
+
+
+
+
+
+

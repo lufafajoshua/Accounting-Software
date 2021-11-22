@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+<link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+<script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+<script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/sample.css" />
+<script src="/static/js/jquery.min.js"></script> 
+
+    
+<script type='text/javascript'>
+$(document).ready(function(){
+    function swap( cells, x, y ){
+    if( x != y ){     
+    var $cell1 = cells[y][x];
+    var $cell2 = cells[x][y];
+    $cell1.replaceWith( $cell2.clone() );
+    $cell2.replaceWith( $cell1.clone() );
+        }
+    }
+
+    var cells = [];
+    $('table').find('tr').each(function(){
+        var row = [];
+        $(this).find('td').each(function(){
+        row.push( $(this) );    
+        });
+        cells.push( row );
+    });
+
+    for( var y = 0; y <= cells.length/2; y++ ){
+        for( var x = 0; x < cells[y].length; x++ ){
+            swap( cells, x, y );
+        }   
+    }
+});
+</script>
+    
+<script type='text/javascript'>
+    $(document).ready(function(){
+        var elem = document.getElementById('table3');
+        function swap( cells, x, y ){
+        if( x != y ){     
+        var $cell1 = cells[y][x];
+        var $cell2 = cells[x][y];
+        $cell1.replaceWith( $cell2.clone() );
+        $cell2.replaceWith( $cell1.clone() );
+            }
+        }
+    
+        var cells = [];
+        elem.find('tr').each(function(){
+            var row = [];
+            $(this).find('td').each(function(){
+            row.push( $(this) );    
+            });
+            cells.push( row );
+        });
+    
+        for( var y = 0; y <= cells.length/2; y++ ){
+            for( var x = 0; x < cells[y].length; x++ ){
+                swap( cells, x, y );
+            }   
+        }
+    });
+    </script>
+         
+  
+<script type='text/javascript'>
+$(document).ready(function(){
+    $('a').click(function(){
+                $(document.getElementById('table3')).each(function() {
+                    var $this = $(this);
+                    var newrows = [];
+                    $this.find('tr').each(function(){
+                        var i = 0;
+                        $(this).find('td').each(function(){
+                            i++;
+                            if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                            newrows[i].append($(this));
+                        });
+                    });
+                    $this.find('tr').remove();
+                    $.each(newrows, function(){
+                        $this.append(this);
+                    });
+                });
+            
+                return false;
+            });
+        });  
+            
+</script>
+
+
+<script type='text/javascript'>
+    $(document).ready(function(){
+        
+        var firstArray = [1,2,3,4,5,6];
+    var secondArray = [6,5,4,3,2,1];
+    var thirdArray = [1,1,1]; 
+    var myListOfArrays = [];
+    
+    mylistOfArrays.push(firstArray);
+    mylistOfArrays.push(secondArray);
+    mylistOfArrays.push(thirdArray);
+
+    console.log(myListOfArrays);
+     
+    });  
+
+                
+    </script>
+    
+
+    </head>
+
+
+<body>
+
+
+<table id='table3'>
+    <tr>
+        <td>1</td>
+        <td>4</td>
+        <td>7</td>
+    </tr>
+    <tr>
+        <td>2</td>
+        <td>5</td>
+        <td>8</td>
+    </tr>
+    <tr>
+        <td>3</td>
+        <td>6</td>
+        <td>9</td>
+        
+    </tr>
+
+</table>
+
+
+<p><a href="#">Do it.</a></p>
+<button id="a">Do it</button>
+
+</body>
+
+</html>

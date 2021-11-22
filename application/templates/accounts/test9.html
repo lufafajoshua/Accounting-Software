@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+<link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+<script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+<script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/sample.css" />
+<script src="/static/js/jquery.min.js"></script>  
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+
+    
+<script type='text/javascript'>
+$(document).ready(function(){
+    function swap( cells, x, y ){
+    if( x != y ){     
+    var $cell1 = cells[y][x];
+    var $cell2 = cells[x][y];
+    $cell1.replaceWith( $cell2.clone() );
+    $cell2.replaceWith( $cell1.clone() );
+        }
+    }
+
+    var cells = [];
+    $('table').find('tr').each(function(){
+        var row = [];
+        $(this).find('td').each(function(){
+        row.push( $(this) );    
+        });
+        cells.push( row );
+    });
+
+    for( var y = 0; y <= cells.length/2; y++ ){
+        for( var x = 0; x < cells[y].length; x++ ){
+            swap( cells, x, y );
+        }   
+    }
+});
+</script>
+    
+<script type='text/javascript'>
+    $(document).ready(function(){
+
+       
+    });
+    </script>
+         
+  
+<script type='text/javascript'>
+$(document).ready(function(){
+    $("#add, .check ").click(function() {
+        $("#table2").delegate(' tbody>tr:last input:first','focus',function(){
+    $('#table2 tbody>tr:last')
+    .clone(true)
+    .insertAfter('#table2 tbody>tr:last').hide().fadeIn().find('input').each(function(){
+        $(this).val('');
+    });
+});
+});
+    
+        });  
+            
+</script>
+
+
+<script type='text/javascript'>
+    $(document).ready(function(){
+        $("#addrows").click(function () {
+     $("#table1").each(function () {
+         var tds = '<tr>';
+         jQuery.each($('tr:last td', this), function () {
+             tds += '<td>' + $(this).html() + '</td>';
+         });
+         tds += '</tr>';
+         if ($('tbody', this).length > 0) {
+             $('tbody', this).append(tds);
+         } else {
+             $(this).append(tds);
+         }
+     });
+});
+
+   
+
+
+    });  
+
+       
+
+     </script>   
+
+
+
+
+
+
+<SCRIPT language="javascript">  
+    function addRow(tableID) {  
+  var table = document.getElementById("addcont");  
+  var rowCount = table.rows.length;  
+  var row = table.insertRow(rowCount);  
+  //Column 1  
+  var cell1 = row.insertCell(0);  
+  var element1 = document.createElement("input");  
+  element1.type = "button";  
+  var btnName = "button" + (rowCount + 1);  
+  element1.name = btnName;  
+  element1.setAttribute('value', 'Delete'); // or element1.value = "button";  
+  element1.onclick = function () { removeRow(btnName); }  
+  cell1.appendChild(element1);  
+  //Column 2    
+  var cell2 = row.insertCell(1);  
+  cell2.innerHTML = rowCount + 1;  
+  //Column 3  
+  var cell3 = row.insertCell(2);  
+  var element3 = document.createElement("input");  
+  element3.type = "text";  
+  cell3.appendChild(element3);  
+  } 
+  </SCRIPT>
+  
+
+    </head>
+
+
+<body>
+<form method="">
+     <!-- New Code -->
+     <a href="#" id="addrows"> Add New Row </a>
+
+     <br>
+ <table id="table1">
+     <thead>
+         <th>Col 1</th>
+         <th>Col 2</th>
+         <th>Col 3</th>
+         <th>Col 4</th>
+     </thead>
+     <tbody>
+         <tr id="rows">
+             <td>
+                 <select name="code">
+                     <option value="1">javascript</option>
+                     <option value="2">PHP mysql</option>
+                 </select>
+             </td>
+             <td>
+                 <input type="text" id="fee-1" class="fee" name="js-fee">
+             </td>
+             <td>
+                 <input type="text" id="fee-2" class="fee" name="php-fee">
+             </td>
+             <td><a href="#">edit</a>
+             </td>
+         </tr>
+     </tbody>
+ </table>
+ 
+
+ <a  id="add">Add</a></td>
+  <table id="table2" width="300" border="1" cellspacing="0" cellpadding="2">
+  <tbody>
+    <tr>
+      <td>Name</td>
+    </tr>
+    <tr class="person">
+      <td><input type="text" name="name[]" class='check' /></td>
+    </tr>
+    </tbody>
+  </table>
+  <input type='submit' />
+</form>
+
+</body>
+
+</html>

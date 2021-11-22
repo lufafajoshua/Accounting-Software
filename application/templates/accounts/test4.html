@@ -1,0 +1,167 @@
+<!doctype html>
+<html>
+<head>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+<script>
+  jQuery('document').ready(function(){
+    $table1=jQuery('#table_row_total');
+    $table1.find('thead tr').append('<th>Total</th>');
+    $table1.find('tbody tr').each(function(){
+      var sum=0;
+      jQuery(this).find('td').each(function(){
+        if(!isNaN(Number(jQuery(this).text()))){
+          sum=sum+Number(jQuery(this).text());
+        }
+      });
+      jQuery(this).append('<td>'+sum+'</td>');
+    });
+
+  });
+</script>
+
+
+
+<script type='text/javascript'>
+    $(document).ready(function () {
+    //iterate through each row in the table
+    $('tr').each(function () {
+        //the value of sum needs to be reset for each row, so it has to be set inside the row loop
+        var sum = 0
+        //find the combat elements in the current row and sum it 
+        $(this).find('.combat').each(function () {
+            var combat = $(this).text();
+            if (!isNaN(combat) && combat.length !== 0) {
+                sum += parseFloat(combat);
+            }
+        });
+        //set the value of currents rows sum to the total-combat element in the current row
+        $('.total-combat', this).html(sum);
+    });
+});
+
+</script>
+    
+
+
+<style>
+*{margin:0;padding:0;}
+h2{
+font-family: Helvetica, Arial, sans-serif;
+color: #333;
+margin:20px 0;
+}
+table {  
+    color: #333;
+    font-family: Helvetica, Arial, sans-serif;
+    width: 640px; 
+    border-collapse: 
+    collapse; border-spacing: 0; 
+}
+
+td, th {  
+    border: 1px solid transparent; 
+    height: 30px; 
+    transition: all 0.3s;  
+}
+
+th {  
+    background: #DFDFDF;  
+    font-weight: bold;
+}
+
+td {  
+    background: #FAFAFA;
+    text-align: center;
+}
+
+  
+tr:nth-child(even) td { background: #F1F1F1; }   
+
+    
+tr:nth-child(odd) td { background: #FEFEFE; }  
+
+tr td:hover { background: #666; color: #FFF; }  
+
+</style>
+</head>
+<body>
+<h2>Marks Obtained out of 100</h2>
+	<table id="table_row_total">
+		<thead>
+			<tr>
+				<th>name</th>
+				<th>Physics</th>
+				<th>Chemistry</th>
+				<th>Maths</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Jhon</td>
+				<td>43</td>
+				<td>76</td>
+				<td>56</td>
+			</tr>
+			<tr>
+				<td>Sam</td>
+				<td>80</td>
+				<td>79</td>
+				<td>96</td>
+			</tr>
+			<tr>
+				<td>Joe</td>
+				<td>73</td>
+				<td>89</td>
+				<td>91</td>
+			</tr>
+			<tr>
+				<td>Michael</td>
+				<td>89</td>
+				<td>68</td>
+				<td>97</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>MAX ATK</th>
+                <th>MAX DEF</th>
+                <th>MAX HP</th>
+                <th>Overall</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="combat">8170</td>
+                <td class="combat">6504</td>
+                <td class="combat">6050</td>
+                <td class="total-combat"></td>
+            </tr>
+            <tr>
+                <td class="combat">8500</td>
+                <td class="combat">10200</td>
+                <td class="combat">7650</td>
+                <td class="total-combat"></td>
+            </tr>
+            <tr>
+                <td class="combat">9185</td>
+                <td class="combat">7515</td>
+                <td class="combat">9185</td>
+                <td class="total-combat"></td>
+            </tr>
+        </tbody>
+    </table>
+    
+    <span id="testval"></span>
+
+
+</body>
+</html>

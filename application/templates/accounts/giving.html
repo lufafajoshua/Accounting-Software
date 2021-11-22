@@ -1,0 +1,867 @@
+<!-- create a folder named templates, put this file into it -->
+<!DOCTYPE html>
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />    
+<link data-require="bootstrap@*" data-semver="4.0.5" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" />
+<script data-require="bootstrap@*" data-semver="4.0.5" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.5/js/bootstrap.min.js"></script>
+<script data-require="jquery@*" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/sample.css" />
+<script src="/static/js/jquery.min.js"></script>  
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+
+<title>All entries</title>
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+    
+   // Show Input element
+   $('.edit').click(function(){
+    $('.txtedit').hide();
+    $(this).next('.txtedit').show().focus();
+    $(this).hide();
+   });
+   
+   // Save data
+   $(".txtedit").focusout(function(){
+     
+    // Get edit id, field name and value
+    var id = this.id;
+    //var ID=$(this).attr('id');
+    var split_id = id.split("_");
+    var field_name = split_id[0];
+    var edit_id = split_id[1];
+    var value = $(this).val();
+    // Hide Input element
+    $(this).hide();
+   
+    // Hide and Change Text of the container with input elmeent
+    $(this).prev('.edit').show();
+    $(this).prev('.edit').text(value);
+   
+    $.ajax({
+    type: 'POST', 
+      // dataType: 'json',
+     url: '/update',
+     //data: { id:edit_id , reciepttotal:reciepttotal, tithe:tithe, campoff:campoff, sabbathsch:sabbathsch, birthday:birthday, divine:divine, thirdsabb:thirdsabb, generalconf:generalconf, operationunity:operationunity, primeradio:primeradio, lunch:lunch, evangelism:evangelism, building:building, otherfunds:otherfunds},
+     data: { field:field_name, value:value, id:edit_id }, 
+      // dataType: "json",
+      //   contentType : 'application/json',
+      success:function(response){
+        if(response == 1){ 
+           console.log('Save successfully'); 
+        }else{ 
+           console.log("Not saved.");  
+        }
+     }
+    });
+    
+   });
+   
+  });
+  </script>
+
+  
+<script type='text/javascript'>
+$(document).ready(function(){
+  //$('a').click(function(){
+              $(this).each(function() {
+                  var $this = $("#table3");
+                  var newrows = [];
+                    $this.find('tr').each(function(){
+                        var i = 0;
+                        $(this).find('td').each(function(){
+                            i++;
+                            if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                            newrows[i].append($(this));
+                        });
+                    });
+                  $this.find('tr').remove();
+                  $.each(newrows, function(){
+                      $this.append(this);
+                  });
+              });
+          
+              return false;
+          });
+       // });  
+          
+</script>
+
+
+  <!-- Create new rows for addcont table Just for testing -->
+  
+<script type='text/javascript'>
+  $(document).ready(function(){
+    //$('a').click(function(){
+                $(this).each(function() {
+                    var $this = $("#addcontbody");
+                    var newrows = [];
+                      $this.find('tr').each(function(){
+                          var i = 0;
+                          $(this).find('td').each(function(){
+                              i++;
+                              if(newrows[i] === undefined) { newrows[i] = $("<tr></tr>"); }
+                              newrows[i].append($(this));
+                          });
+                      });
+                    $this.find('tr').remove();
+                    $.each(newrows, function(){
+                        $this.append(this);
+                    });
+                });
+            
+                return false;
+            });
+         // });  
+            
+  </script>
+  
+    <!-- End testing for addcont table -->
+
+<script type='text/javascript'>
+  $(document).ready(function () {
+  //iterate through each row in the table adding the cells to compute the reciept total
+  $('#workweek tr ').each(function () {
+      //the value of sum needs to be reset for each row, so it has to be set inside the row loop
+      var sum = 0
+      //find the combat elements in the current row and sum it 
+      $(this).find('td:not(:first)').each(function () {
+          var combat = $(this).text();
+          if (!isNaN(combat) && combat.length !== 0) {
+              sum += parseFloat(combat);
+          }
+      });
+      //set the value of currents rows sum to the total-combat element in the current row
+      $('.reciept_total', this).html(sum);
+  });
+});
+
+</script>
+
+
+
+<script type='text/javascript'>
+  $(document).ready(function () {
+  //iterate through each row in the table3 adding the cells to compute the reciept total
+  $('#table3 tr ').each(function () {
+      //the value of sum needs to be reset for each row, so it has to be set inside the row loop
+      var sum = 0
+      //find the combat elements in the current row and sum it 
+      $(this).find('td:not(:first)').each(function () {
+          var combat = $(this).text();
+          if (!isNaN(combat) && combat.length !== 0) {
+              sum += parseFloat(combat);
+          }
+      });
+      //set the value of currents rows sum to the total-combat element in the current row
+      //$('.reciept_total', this).html(sum);
+      //$('#table3 tr').append('<td>'+this+'</td>').html(sum)
+      //('#table3 tr').insertCell().last().innerHTML = sum;
+      //$this.append(sum);
+      
+  });
+});
+
+</script>
+
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+  var result = [];
+/*Adding columns of the entries table with id workweek*/  
+  $('#workweek tr').each(function(){
+    $('td', this).each(function(index, val){
+        if(!result[index]) result[index] = 0;
+      result[index] += parseInt($(val).text());
+    });
+  });
+
+  $('#workweek').append('<tr></tr>');
+  $(result).each(function(){
+    $('#workweek tr').last().append('<td>'+this+'</td>')
+  });
+});
+
+  </script>
+
+
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+  var result = [];
+  /*Adding columns of the projects table with id table3*/
+  $('#table3 tr').each(function(){
+    $('td', this).each(function(index, val){
+        if(!result[index]) result[index] = 0;
+      result[index] += parseInt($(val).text());
+    });
+  });
+
+  $('#table3').append('<tr></tr>');
+  $(result).each(function(){
+    $('#table3 tr').last().append('<td>'+this+'</td>')
+  });
+});
+
+  </script>
+
+
+
+<script type='text/javascript'>
+  $(document).ready(function(){
+  var result = [];
+  
+  /*Get the table by its id and also select the last row*/
+  var table = document.getElementById('workweek');
+  var lastRow = table.rows[table.rows.length-1];
+
+  /* create variables for the summary table and assign them from here*/
+  var combined = document.getElementById('combined');
+  var tithe = lastRow.cells[3].innerHTML;
+  var campmeeting = lastRow.cells[4].innerHTML;
+  var third_sabb = lastRow.cells[8].innerHTML;
+  var gc_session = lastRow.cells[9].innerHTML;
+  var kireka = document.getElementById('kireka');
+  var radio = lastRow.cells[11].innerHTML;
+  
+
+  $('#workweek tr:not(:last)').each(function(){
+    $('td:nth-child(6), td:nth-child(7), td:nth-child(8)', this).each(function(index, val){
+        if(!result[index]) result[index] = 0 && !('td:last');//You can do away with one of the checks for the last cell
+      result[index] += parseInt($(val).text());
+    });
+  });
+  
+  //sum up the results from the computation and get the total 
+  document.getElementById("val").innerHTML = "Sum Value = " + result;
+  console.log(result);
+  //compute the total results for column sums in the result array.
+  function totalresults(results) {
+   var finalresult = 0;
+  for (var i  = 0; i < results.length; i++){
+
+    finalresult  += results[i];
+
+    }
+    return finalresult;
+    
+  }
+  document.getElementById("totval").innerHTML = "Total Results = " + totalresults(result);
+  console.log(totalresults(result));
+  /*Assign the last rows in the workweek table to the summary tables*/
+  document.getElementById("combined").innerHTML = totalresults(result);
+  console.log(totalresults(result));
+
+  document.getElementById("tithe").innerHTML = tithe;
+  console.log(tithe);  
+
+  document.getElementById("campmeeting").innerHTML = campmeeting;
+  console.log(campmeeting);
+
+  document.getElementById("third_sabb").innerHTML = third_sabb;
+  console.log(third_sabb);
+  
+  document.getElementById("gc_session").innerHTML = gc_session;
+  console.log(gc_session);
+
+  document.getElementById("radio").innerHTML = radio;
+  console.log(radio);
+
+});
+  </script>
+
+
+<script type='text/javascript'>
+  $(document).ready(function () {
+  //iterate through each row in the table
+  var result = [];
+  var result2 = []
+  var table = document.getElementById('workweek');
+  var second = table.rows[1];
+  //var array = []
+  $('#workweek tr').not(':first').not(second).each(function () {
+      //the value of sum needs to be reset for each row, so it has to be set inside the row loop
+      var sum = 0
+ 
+      //find the combat elements in the current row and sum it 
+      $(this).find('td:not(:first)').each(function () {
+          var combat = $(this).text();
+          if (!isNaN(combat) && combat.length !== 0) {
+              sum += parseFloat(combat);
+          } 
+            
+      });
+      //set the value of currents rows sum to the total-combat element in the current row
+      //$('.reciept_total', this).html(sum);
+      result.push(sum)
+      document.getElementById("rowtot").innerHTML = "Row total = " + result;
+      console.log(result);
+      
+      //alert(result)
+  
+  });
+
+  $('#table3 tr').each(function () {
+      //the value of sum needs to be reset for each row, so it has to be set inside the row loop
+      var sum = 0
+      
+      //find the combat elements in the current row and sum it 
+      //$(this).find('td:not(:first)').each(function () {
+      $(this).find('td').each(function () {
+          var combat = $(this).text();
+          if (!isNaN(combat) && combat.length !== 0) {
+              sum += parseFloat(combat);
+          } 
+            
+      });
+      //set the value of currents rows sum to the total-combat element in the current row
+      //$('.reciept_total', this).html(sum);
+      result2.push(sum)
+      //document.getElementById("rowtotal").innerHTML = "Row total = " + result2;
+      //console.log(result2);
+      
+      //alert(result2)
+  
+  });
+  var array = [];
+    array[0] = result;
+     array[1] = result2;
+    //array.push([result], [result2]);
+  //var array = [[result], [result2]]
+  var result3 = array.reduce((r, a) => a.map((b, i) => (r[i] || 0) + b), []);
+  //console.log(result3);
+    document.getElementById("rowtotal").innerHTML = "Row total = " + result3;
+      console.log(result3);
+    alert(result3);
+
+    function sum(...arrays) {
+      return arrays
+        .sort((a, b) => b.length - a.length)
+        .reduce((a, c) => a.map((n, i) => n + (c[i] || 0)) || c);
+    };
+
+    const result4 = sum(result, result2);
+    alert(result4);
+    //alert(result)
+    //alert(result2)
+    
+
+});
+
+</script>
+
+
+
+<script type='text/javascript'>
+$(document).ready(function () {
+
+  var table = document.getElementById('workweek');
+  var lastRow = table.rows[table.rows.length-1];
+  var giving_id = document.getElementsByClassName("object")[0].id;
+  //var giving_id = giving.id;
+  var reciept_total = lastRow.cells[2].innerHTML;  
+  var tithe = lastRow.cells[3].innerHTML;
+  var camp_off = lastRow.cells[4].innerHTML;
+  var sabbath_sch = lastRow.cells[5].innerHTML;
+  var birthday = lastRow.cells[6].innerHTML;
+  var divine = lastRow.cells[7].innerHTML;
+  var third_sabb = lastRow.cells[8].innerHTML;
+  var general_conf = lastRow.cells[9].innerHTML;
+  var operation_unity = lastRow.cells[10].innerHTML;
+  var prime_radio = lastRow.cells[11].innerHTML;
+  var lunch = lastRow.cells[12].innerHTML;
+  var evangelism = lastRow.cells[13].innerHTML;
+  var building = lastRow.cells[14].innerHTML;
+  var other_funds = lastRow.cells[15].innerHTML;
+  
+  $.ajax({
+    type: 'POST', 
+      // dataType: 'json',
+     url: '/set_total',
+     
+     //pass the giving id if necessary
+     data: {giving_id:giving_id, reciept_total:reciept_total, tithe:tithe, camp_off:camp_off, sabbath_sch:sabbath_sch, birthday:birthday, divine:divine, third_sabb:third_sabb, general_conf:general_conf, operation_unity:operation_unity, prime_radio:prime_radio, lunch:lunch, evangelism:evangelism, building:building, other_funds:other_funds},
+     //data: { field:field_name, value:value, id:edit_id }, 
+      // dataType: "json",
+      //   contentType : 'application/json',
+      success:function(response){
+        if(response == 1){ 
+           console.log('Saved successfully'); 
+        }else{ 
+           console.log("Something Is wrong");  
+        }
+     }
+    });
+
+});  
+</script>
+
+
+
+
+
+<SCRIPT language="javascript">
+     function addRow(tableID) {
+     //Use different input names so to create only the rows being added dynamicaaly
+       var table = document.getElementById('addcont');
+
+       var rowCount = table.rows.length;
+       var row = table.insertRow(rowCount);
+       var rowlength = document.getElementById("addcont").rows[0].cells.length;
+       alert(rowlength)
+       for (var i=0; i<rowlength; i++)
+       {
+       var cell = row.insertCell(i);
+       var element2 = document.createElement("input");
+       element2.type = "number";
+       element2.name = "amount";
+       cell.appendChild(element2);
+       }
+
+
+    // }
+  //     $("#addrow").click(function () {
+  //     $("#addcont").each(function () {
+  //         var tds = '<tr>';
+  //         jQuery.each($('tr:last td', this), function () {
+  //             tds += '<td>' + $(this).html() + '</td>';
+  //         });
+  //         tds += '</tr>';
+  //         if ($('tbody', this).length > 0) {
+  //             $('tbody', this).append(tds);
+  //         } else {
+  //             $(this).append(tds);
+  //         }
+  //     });
+  // });
+  }
+   
+  </SCRIPT>
+
+
+
+<SCRIPT language="javascript">  
+  function addRow(tableID) {  
+var table = document.getElementById("addcont");  
+var rowCount = table.rows.length;  
+var row = table.insertRow(rowCount);  
+var rowlength = table.rows[0].cells.length;
+
+for (var i=0; i<rowlength; i++)
+    {
+
+      var cell = row.insertCell(i);  
+      var element = document.createElement("input");  
+      element.type = "number";  
+      cell.appendChild(element);
+
+    }
+//Column 1  
+  // var cell1 = row.insertCell(0);  
+  // var element1 = document.createElement("input");  
+  // element1.type = "button";  
+  // var btnName = "button" + (rowCount + 1);  
+  // element1.name = btnName;  
+  // element1.setAttribute('value', 'Delete'); // or element1.value = "button";  
+  // element1.onclick = function () { removeRow(btnName); }  
+  // cell1.appendChild(element1);  
+  // //Column 2    
+  // var cell2 = row.insertCell(1);  
+  // cell2.innerHTML = rowCount + 1;  
+  // //Column 3  
+  // var cell3 = row.insertCell(2);  
+  // var element3 = document.createElement("input");  
+  // element3.type = "text";  
+  // cell3.appendChild(element3);  
+} 
+</SCRIPT>
+
+
+
+
+</head>
+
+<body id="tbody">
+<h1>Entries</h1>
+
+<a class="action" href="{{ url_for('add_giving_account', giving_id=giving.id) }}">Add Account</a>
+<br>
+
+<a class="action" href="{{ url_for('add_giving_project', giving_id=giving.id) }}">Add Project</a>
+<br>
+<p>
+	<a href="{{ url_for('.excel_giving', giving_id=giving.id) }}">Generate Excel Report</a>
+</p>
+<p class='object' id='{{giving.id}}'>{{ giving.date_created }}</p>
+
+
+<form method="POST" action="">
+  <div class="container" >
+      <div class="row" style="padding:50px;">
+          <p><h1>Live Editable Table using Python Flask Mysql and Jquery Ajax</h1></p>
+          <table  id="workweek" width='100%' border='0'>
+           <tr>
+            <tr class="head">
+              {% for head in headers%}
+                  <th>{{ head }}</th>
+              {% endfor %}     
+          </tr>
+          {% for row in entries %}
+              
+           <tr>
+            <td>{{row.id}}</td>
+            {%for a in accounts%}
+            {% if row.account_id == a.id %}
+            <td>
+                  {{a.name}}  
+            </td>
+            {%endif%}
+            {%endfor%}
+            <td class="reciept_total"> 
+              <div class='edit' > {{row.reciept_total }}</div> 
+              <input type='number' step="any" name='reciepttotal' class='txtedit' value='{{row.reciept_total}}' id='reciepttotal_{{row.id}}' >
+            </td>
+            <td> 
+             <div class='edit' >{{row.tithe}} </div> 
+             <input type='number' name='tithe' class='txtedit' value='{{row.tithe}}' id='tithe_{{row.id}}' >
+            </td>
+            <td> 
+              <div class='edit' >{{row.camp_off}} </div> 
+              <input type='number' name='campoff' class='txtedit' value='{{row.camp_off}}' id='campoff_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.sabbath_sch}} </div> 
+              <input type='number' name='sabbathsch' class='txtedit' value='{{row.sabbath_sch}}' id='sabbathsch_{{row.id}}' >
+             </td>
+             <td id='birthday'> 
+              <div class='edit'>{{row.birthday}} </div> 
+              <input type='number' name='birthday' class='txtedit' value='{{row.birthday}}' id='birthday_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.divine}} </div> 
+              <input type='number' name='divine' class='txtedit' value='{{row.divine}}' id='divine_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.third_sabb}} </div> 
+              <input type='number' name='thirdsabb' class='txtedit' value='{{row.third_sabb}}' id='thirdsabb_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.general_conf}} </div> 
+              <input type='number' name='generalconf' class='txtedit' value='{{row.general_conf}}' id='generalconf_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.operation_unity}} </div> 
+              <input type='number' name='operationunity' class='txtedit' value='{{row.operation_unity}}' id='operationunity_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.prime_radio}} </div> 
+              <input type='number' name='primeradio' class='txtedit' value='{{row.prime_radio}}' id='primeradio_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.lunch}} </div> 
+              <input type='number' name='lunch' class='txtedit' value='{{row.lunch}}' id='lunch_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.evangelism}} </div> 
+              <input type='number' name='evangelism' class='txtedit' value='{{row.evangelism}}' id='evangelism_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.building}} </div> 
+              <input type='number' name='building' class='txtedit' value='{{row.building}}' id='building_{{row.id}}' >
+             </td>
+             <td> 
+              <div class='edit' >{{row.other_funds}} </div> 
+              <input type='number' name='otherfunds' class='txtedit' value='{{row.other_funds}}' id='otherfunds_{{row.id}}' >
+             </td>
+
+        </tr>
+
+          {% endfor %} 
+  
+          </table>
+
+          <br>
+          <span id="val"> Total Here</span>
+          <br>
+          <span id="totval">Another Total:</span>
+          
+          <br>
+          <span id="rowtot">Row Total:</span>
+          
+          <br>
+          <span id="rowtotal">Row Total:</span>
+          
+
+          <br>
+          <table id='table3'>
+            <thead>
+           
+            <tbody>
+              {%for cont in values%}
+              <tr>
+                {%for x in cont%}
+                
+                  <td>
+                    <div class='edit' >{{x.amount}} </div> 
+                    <input type='number' name='amount' class='txtedit' value='{{x.amount}}' id='amount_{{x.id}}' >
+                  </td>
+                {%endfor%} 
+              </tr>
+              {%endfor%}
+            </tbody>
+
+          </table>
+
+
+          <br>
+          <table id='newtable'>
+            <thead>
+           
+            <tbody>
+              
+              {%for project in giving.projects%}          
+              <tr>
+                <th>{{project.name}}</th>
+              </tr>
+              <tr>
+                {%for x in project.contributions%}
+                  {%if x.giving_id == giving.id%}
+                  <td>
+                    <div class='edit' >{{x.amount}} </div> 
+                    <input type='number' name='amount' class='txtedit' value='{{x.amount}}' id='amount_{{x.id}}' >
+                  </td>
+                  {%endif%}
+                {%endfor%} 
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+
+
+
+
+
+          <table id='table0'>
+              <tbody>
+              {%for row in ids%}
+             
+              <tr> 
+                {% for x in row %}  
+                <td>
+                  {{x}}
+                </td>
+                {% endfor %}   
+              </tr>
+              {%endfor%} 
+           </tbody>
+          </table>
+
+
+          <table id="table0">
+            <tr>
+                <td>1</td>
+                <td>4</td>
+                <td>7</td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>5</td>
+                <td>8</td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>6</td>
+                <td>9</td>
+            </tr>
+        </table>      
+        
+        <table id="projecttotal">
+          {% for project in giving.projects %}
+          <tr>
+              <td>{{project.project_name}}</td>
+              
+              <td>{{project.acct_balance}}</td>
+                <!-- Dont forget to use the total collected-->
+          </tr>
+          {%endfor%}
+      </table>      
+      
+      <br>
+
+        <table id='summary' class="table table-hover table-condensed table-bordered">
+          <tr>
+            <th>Fields:</th>
+            <th>Shillings</th>
+          </tr>
+          <tr>
+              <td>Total Participants:</td>
+              <td></td>
+          </tr>
+          <tr>
+              <td>Tithe:</td>
+              <td id='tithe'></td>
+          </tr>
+          <tr>
+              <td>Campmeeting Offering:</td>
+              <td id='campmeeting'></td>
+          </tr>
+          <tr>
+              <td>Combined Offering:</td>
+              <td id='combined'></td>
+          </tr>
+          <tr>
+              <td>13th Sabbath:</td>
+              <td id='third_sabb'></td>
+          </tr>
+          <tr>
+            <td>GC Session:</td>
+            <td id='gc_session'></td>
+        </tr>
+        <tr>
+          <td>Kireka Adventist Hospital:</td>
+          <td id='kireka'></td>
+        </tr>
+        <tr>
+          <td>Prime Radio:</td>
+          <td id='radio'></td>
+        </tr>
+        <tr>
+          <td>Total Remitted:</td>
+          <td id='remmited'></td>
+        </tr>
+      </table> 
+     </div>
+  </div>
+
+
+  <br>
+          <table id='addcont'>
+            <thead>
+            
+              {%for project in projects%}
+              <th>{{project.project_name}}</th>
+              {%endfor%}
+            </thead>  
+            <tbody id='addcontbody'>
+              
+              {%for project in giving.projects%}          
+              <tr>
+                {%for x in project.contributions%}
+                  {%if x.giving_id == giving.id%}
+                  <td>
+                    <div class='edit' >{{x.amount}} </div> 
+                    <input type='number' name='amount' class='txtedit' value='{{x.amount}}' id='amount_{{x.id}}' >
+                  </td>
+                  {%endif%}
+                {%endfor%} 
+              </tr>
+              {%endfor%}
+            </tbody>
+          </table>
+          <INPUT type="button" value="Add Row" onclick="addRow('addcont')" />
+          
+
+
+  </form>
+  <style>
+  .edit{
+   width: 100%;
+   height: 25px;
+  }
+  .editMode{
+   border: 1px solid black;
+  }
+  table {
+   border:3px solid lavender;
+   border-radius:3px;
+  }
+  table tr:nth-child(1){
+   background-color:#4285f4;
+  }
+  table tr:nth-child(1) th{
+   color:white;
+   padding:10px 0px;
+   letter-spacing: 1px;
+  }
+  table td{
+   padding:10px;
+  }
+  table tr:nth-child(even){
+   background-color:lavender;
+   color:black;
+  }
+  .txtedit{
+   display: none;
+   width: 99%;
+   height: 30px;
+  }
+  </style>
+
+<br>
+<p><a href="#">Do it.</a></p>
+        <button id="a">Do it</button>
+
+<table id="table4">
+  <thead>
+   
+    <tr class="thead">
+      <th>Names</th>
+      {%for project in projects%}
+      <th>{{project.project_name}}</th>
+      {%endfor%}
+    </tr>
+
+  </thead>  
+  
+  <tbody id="body1">
+    
+    <tr>
+    {%for account in accounts%}
+    
+      <td>{{account.name}}</td>
+    
+    {%endfor%}
+    <tr>
+
+    {%for cont in values%}
+  <tr>
+    
+    {%for x in cont%}
+    <td>{{x.amount}}</td>
+    {%endfor%}
+    
+  </tr>
+  {%endfor%}
+
+  </tbody>
+
+</table>
+
+
+ <p><br>
+<table id="table5">
+  <tr>
+      <td>1</td>
+      <td>4</td>
+      <td>7</td>
+  </tr>
+  <tr>
+      <td>2</td>
+      <td>5</td>
+      <td>8</td>
+  </tr>
+  <tr>
+      <td>3</td>
+      <td>6</td>
+      <td>9</td>
+  </tr>
+
+</table>
+</p>
+
+
+</body>
+</html>
